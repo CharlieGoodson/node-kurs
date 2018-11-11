@@ -3,12 +3,14 @@ const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
 
-const rootDir = require('./util/path')
+// const rootDir = require('./util/path')
 
 const app = express()
 
-app.set('view engine', 'pug')
+app.set('view engine', 'ejs')
+// app.set('view engine', 'pug')
 app.set('views', 'views')
+
 
 const adminData = require('./routes/admin')
 const shopRoutes = require('./routes/shop')
@@ -22,7 +24,10 @@ app.use(shopRoutes)
 
 app.use((req, res, next) => {
     // res.status(404).sendFile(path.join(rootDir, 'views', '404.html'))
-    res.status(404).render('404', {docTitle: 'Error 404 - Page not found'})
+    res.status(404).render('404', {
+        pageTitle: 'Error 404 - Page not found',
+        path: ''
+    })
 })
 
 const port = process.env.port || 5000
