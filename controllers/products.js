@@ -17,10 +17,11 @@ module.exports.postAddProducts = (req, res, next) => {
 module.exports.getProducts = (req, res, next) => {
     // console.log(adminData.products)
     // res.sendFile(path.join(rootDir, 'views', 'shop.html'))
-    const products = Product.fetchAll()
-    res.render('shop', {
-        products: products,
-        pageTitle: 'Shop',
-        path: '/'
+    const products = Product.fetchAll((products) => {
+        res.render('shop', {
+            products: products,
+            pageTitle: 'Shop',
+            path: '/'
+        })
     })
 }
