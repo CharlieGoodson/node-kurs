@@ -4,7 +4,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const errorController = require('./controllers/error');
-const sequelize = require('./util/database')
+// const sequelize = require('./util/database')
+const sequelize = require('./util/db-heroku')
 
 const app = express();
 
