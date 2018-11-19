@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const errorController = require('./controllers/error');
+const sequelize = require('./util/database')
 
 const app = express();
 
@@ -22,4 +23,13 @@ app.use(shopRoutes);
 app.use(errorController.get404);
 
 const port = process.env.PORT || 3000
-app.listen(port);
+
+sequelize
+    .sync()
+    .then(result => {
+        app.listen(port, () => console.log(`Server started on port ${port}`))
+    })
+    .catch(err => {
+        console.log(err)
+    })
+

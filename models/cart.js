@@ -8,6 +8,16 @@ const file = path.join(
 )
 
 module.exports = class Cart {
+    static getCart(cb) {
+        fs.readFile(file, (err, fileContent) => {
+            if (!err) {
+                cb(JSON.parse(fileContent))
+            } else {
+                cb(null)
+            }
+        }) 
+    }
+
     static addProduct(id, price) {
         // получить имеющуюся корзину или создать новую
         fs.readFile(file, (err, fileContent) => {
@@ -32,6 +42,20 @@ module.exports = class Cart {
             }
             cart.totalSum += +price
             fs.writeFile(file, JSON.stringify(cart), err => {
+                console.log(err)
+            })
+        })
+    }
+
+    static deleteProduct(id, productPrice) {
+        fs.readFile(file, (err, fileContent) => {
+            if (err) return
+            const updatedCart = { ...JSON.parse(fileContent)}
+            const product = updatedCart.products.find(p => p.id === id)
+            const productQty = product.qty
+            updatedCart.totalSum -= productQty * productPrice
+            updatedCart.products = updatedCart.products.filter(p => p.id !== id)
+            fs.writeFile(file, JSON.stringify(updatedCart), err => {
                 console.log(err)
             })
         })
